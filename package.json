@@ -1,50 +1,31 @@
 {
-  "name": "VidhyaMitra",
-  "version": "0.0.1",
+  "name": "vidya-mitra-monorepo",
+  "version": "1.0.0",
+  "description": "Vidya Mitra — AI-powered Socratic Tutor & Parent Bridge for Classes 1 to 8",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest"
+    "mobile:start": "cd mobile-app && npm start",
+    "mobile:android": "cd mobile-app && npm run android",
+    "mobile:ios": "cd mobile-app && npm run ios",
+    "ai:dev": "cd ai-service && uvicorn app.main:app --reload --port 8000",
+    "backend:dev": "cd backend && ./mvnw spring-boot:run",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "train:gen-data": "cd ml-training && python dataset_generator/generate_socratic_ncert_dataset.py"
   },
-  "dependencies": {
-    "@react-native-async-storage/async-storage": "^3.1.1",
-    "@react-native/new-app-screen": "0.86.0",
-    "@react-navigation/native": "^7.3.4",
-    "@react-navigation/stack": "^7.10.6",
-    "expo-linear-gradient": "^56.0.4",
-    "expo-splash-screen": "^56.0.10",
-    "react": "19.2.3",
-    "react-native": "0.86.0",
-    "react-native-gesture-handler": "^3.0.2",
-    "react-native-linear-gradient": "^2.8.3",
-    "react-native-safe-area-context": "^5.8.0",
-    "react-native-screens": "^4.25.2",
-    "react-native-vector-icons": "^10.3.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.3",
-    "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "20.1.0",
-    "@react-native-community/cli-platform-android": "20.1.0",
-    "@react-native-community/cli-platform-ios": "20.1.0",
-    "@react-native/babel-preset": "0.86.0",
-    "@react-native/eslint-config": "0.86.0",
-    "@react-native/metro-config": "0.86.0",
-    "@react-native/typescript-config": "0.86.0",
-    "@types/jest": "^29.5.13",
-    "@types/react": "^19.2.0",
-    "@types/react-test-renderer": "^19.1.0",
-    "eslint": "^8.19.0",
-    "jest": "^29.6.3",
-    "prettier": "2.8.8",
-    "react-test-renderer": "19.2.3",
-    "typescript": "^5.8.3"
-  },
-  "engines": {
-    "node": ">= 22.11.0"
-  }
+  "keywords": [
+    "education",
+    "indic-languages",
+    "rag",
+    "socratic-tutor",
+    "ncert",
+    "react-native",
+    "spring-boot",
+    "fastapi",
+    "phi-3",
+    "nemotron",
+    "gemma"
+  ],
+  "author": "Sain",
+  "license": "MIT"
 }

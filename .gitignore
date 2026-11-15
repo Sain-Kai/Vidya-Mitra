@@ -73,3 +73,28 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Java Maven & Gradle
+target/
+*.jar
+*.war
+
+# Environment variables & local configs
+.env
+*.env.local
+
+# ML models and outputs
+output/
+*.bin
+*.safetensors
+*.gguf
+chroma_store/
