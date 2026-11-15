@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: vidyamitra-backend
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://localhost:27017/vidyamitra}
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/vidyamitra}
+    username: ${POSTGRES_USER:vidyamitra}
+    password: ${POSTGRES_PASSWORD:vidyamitra123}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+vidyamitra:
+  ai-service:
+    url: ${AI_SERVICE_URL:http://localhost:8000}
+  jwt:
+    secret: ${JWT_SECRET:vidyamitra_super_secret_jwt_key_2026_class1_to_8}
+    expiration-ms: 604800000 # 7 days
