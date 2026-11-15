@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: React Native client cleanly decoupled and relocated to mobile-app/ sub-package.
-* **Decided Next Stage**: **Implement modular UI components and Class 1-8 subject catalog**.
+* **Current Status**: Core UI component library and Class 1-8 subject grid implemented.
+* **Decided Next Stage**: **Implement animated splash screen and root navigation architecture**.
 
 ---
 
