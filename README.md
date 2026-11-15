@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Core UI component library and Class 1-8 subject grid implemented.
-* **Decided Next Stage**: **Implement animated splash screen and root navigation architecture**.
+* **Current Status**: Welcoming animated splash screen and RootNavigator stack configured.
+* **Decided Next Stage**: **Develop dual-mode home screen for students and parents**.
 
 ---
 
