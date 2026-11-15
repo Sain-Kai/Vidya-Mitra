@@ -1,0 +1,9 @@
+export { HomeScreen } from './HomeScreen';
+export { SplashScreen } from './SplashScreen';
+export { LiveTranslateScreen } from './LiveTranslateScreen';
+export { TutorChatScreen } from './TutorChatScreen';
+export { AssessmentScreen } from './AssessmentScreen';
+export { DoubtSolverScreen } from './DoubtSolverScreen';
+export { ExamPlannerScreen } from './ExamPlannerScreen';
+export { PaperEvaluatorScreen } from './PaperEvaluatorScreen';
+export { PerformanceScreen } from './PerformanceScreen';
