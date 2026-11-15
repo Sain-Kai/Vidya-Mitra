@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Dual-persona dashboard (Student / Parent) operational with learning streaks and quick action routing.
-* **Decided Next Stage**: **Implement real-time live camera translation screen**.
+* **Current Status**: Live camera OCR translation screen implemented with 10 Indic languages selector and persistent bottom sheet.
+* **Decided Next Stage**: **Build Socratic AI tutor interface with progressive simplification**.
 
 ---
 
