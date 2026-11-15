@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Multi-format diagnostic testing interface (MCQ, Short, Long, Logical) with weakness analysis active.
-* **Decided Next Stage**: **Build multimodal doubt solver and study material explainer screen**.
+* **Current Status**: Doubt solver screen ready for text, photo, and PDF homework ingestion with step-by-step reasoning.
+* **Decided Next Stage**: **Implement smart exam revision planner and timetable generator**.
 
 ---
 
