@@ -1,497 +1,196 @@
-<<<<<<< HEAD
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-
-# Getting Started
-
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
-
-## Step 1: Start Metro
-
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-=======
 <div align="center">
 
-# 📚 Vidya Mitra
-### *विद्या मित्र — Your Child's Knowledge Friend*
+# 📚 Vidya Mitra (विद्या मित्र)
+### *Your Child's Socratic Learning Friend & Parent Bridge*
 
-**An AI-powered private tutor bridging the English-medium learning gap for rural India**
+**An AI-Powered Multilingual Learning Companion for Indian Students (Classes 1 to 8) and Their Families**
 
 <p>
-  <img src="https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge" alt="status"/>
-  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="license"/>
-  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-success?style=for-the-badge" alt="platform"/>
+  <img src="https://img.shields.io/badge/Status-In%20Active%20Build-success?style=for-the-badge" alt="status"/>
+  <img src="https://img.shields.io/badge/Target-Classes%201%20to%208-blue?style=for-the-badge" alt="target"/>
+  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-orange?style=for-the-badge" alt="platform"/>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="license"/>
 </p>
 
 <p>
-  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="java"/>
-  <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="springboot"/>
-  <img src="https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="react-native"/>
-  <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb"/>
-  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgres"/>
-  <img src="https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white" alt="langchain"/>
-  <img src="https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white" alt="ollama"/>
-  <img src="https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="huggingface"/>
+  <img src="https://img.shields.io/badge/React%20Native-0.86-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="react-native"/>
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="springboot"/>
+  <img src="https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="fastapi"/>
+  <img src="https://img.shields.io/badge/Phi--3.5%20%7C%20Gemma%20%7C%20Nemotron-Kaggle%20Fine--Tuning-blueviolet?style=for-the-badge&logo=kaggle&logoColor=white" alt="kaggle"/>
+  <img src="https://img.shields.io/badge/ChromaDB-Vector%20RAG-red?style=for-the-badge" alt="chroma"/>
+  <img src="https://img.shields.io/badge/IndicTrans2-10%2B%20Languages-yellow?style=for-the-badge" alt="indic"/>
 </p>
 
 <p>
-  <a href="#-getting-started"><img src="https://img.shields.io/badge/🚀_Get_Started-4CAF50?style=for-the-badge" alt="get-started"/></a>
-  <a href="#-features"><img src="https://img.shields.io/badge/✨_Features-2196F3?style=for-the-badge" alt="features"/></a>
-  <a href="#-architecture"><img src="https://img.shields.io/badge/🏗️_Architecture-9C27B0?style=for-the-badge" alt="architecture"/></a>
-  <a href="#-api-reference"><img src="https://img.shields.io/badge/📡_API_Docs-FF5722?style=for-the-badge" alt="api"/></a>
-  <a href="#-contributing"><img src="https://img.shields.io/badge/🤝_Contribute-FFC107?style=for-the-badge" alt="contribute"/></a>
+  <a href="#-project-status--next-stage"><img src="https://img.shields.io/badge/📌_Project_Status-FF5722?style=for-the-badge" alt="status"/></a>
+  <a href="#-key-capabilities"><img src="https://img.shields.io/badge/✨_Features-2196F3?style=for-the-badge" alt="features"/></a>
+  <a href="#-repository-structure"><img src="https://img.shields.io/badge/📂_Repository_Structure-4CAF50?style=for-the-badge" alt="structure"/></a>
+  <a href="docs/KAGGLE_FINETUNING_GUIDE.md"><img src="https://img.shields.io/badge/🧠_Kaggle_Training_Guide-FF9800?style=for-the-badge" alt="kaggle-guide"/></a>
+  <a href="LIBRARIES_INSTALLED.md"><img src="https://img.shields.io/badge/📦_Dependency_Audit-607D8B?style=for-the-badge" alt="libraries"/></a>
 </p>
 
 </div>
 
 ---
 
-## 📖 About The Project
+## 📌 Project Status & Next Stage
 
-Across India, millions of parents who studied in their **native language** are now raising children enrolled in **English-medium schools**. The result is a widening gap — parents can't check homework, can't explain concepts, and can't follow what their own children are learning.
-
-**Vidya Mitra** closes that gap. Point your camera at a textbook line and get an instant translation. Hand the phone to your child and a fine-tuned LLM tutor explains the same concept in simple, age-appropriate language — by voice or text — for students from **Nursery to Class 5**.
-
-> 🎯 **Mission:** No parent should feel locked out of their child's education because of a language barrier.
+* **Current Status**: Root directory cleaned; duplicate directories removed and screenshots organized into docs/assets/screenshots/.
+* **Decided Next Stage**: **Relocate React Native client into dedicated mobile-app/ directory**.
 
 ---
 
-## ✨ Features
+## 📖 The Mission & Indian Context
 
-| | Feature | Description |
+In the Indian educational landscape, extraordinary diversity in regional languages exists alongside deep literacy divides. Millions of parents who grew up speaking regional mother tongues (Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, etc.) enroll their children in English-medium schools with aspirations of a brighter future.
+
+However, this creates severe real-world challenges:
+1. **The Parent Guidance Gap**: Parents cannot guide their children in their daily studies because of language barriers or illiteracy. They feel locked out of their child's education.
+2. **The Tuition & Slow Learner Gap**: In crowded classrooms or private tuitions, students have different learning speeds. Slow learners often fall behind, feeling too shy or fearful of peer bullying to ask teachers to explain a concept repeatedly.
+3. **The "Mug-Up" (Rote Learning) Strategy**: Students are often forced to memorize without understanding the underlying foundations.
+4. **Exam Week Teacher Unavailability**: When exams arrive, teachers are busy with grading and meetings, leaving anxious students stranded without guidance.
+
+**Vidya Mitra (विद्या मित्र)** is built to solve these exact challenges. It is a patient, zero-judgment, foundational AI companion that translates textbooks in real time for parents, simplifies explanations progressively for students, and provides structured exam preparation and paper evaluation.
+
+---
+
+## ✨ Key Capabilities
+
+| # | Capability | Description |
 |---|---|---|
-| 📷 | **Live Camera Translation** | Point at any textbook line — on-device OCR + NLLB-200 translates instantly, overlaid on the camera feed |
-| 🗣️ | **Voice Tutor** | Ask questions in Hindi, Tamil, Telugu & more — get spoken answers in simple, child-friendly language |
-| 🧠 | **Fine-Tuned LLM** | Phi-3 Mini fine-tuned on NCERT curriculum to explain topics the way a kind teacher would |
-| 📚 | **RAG over NCERT** | Every explanation is grounded in actual Class 1–5 textbook content via ChromaDB retrieval |
-| 📝 | **Auto-Generated Tests** | LangChain generates quizzes and exercises matched to the student's class and weak areas |
-| 📅 | **Smart Scheduling** | Spaced-repetition style test scheduling based on performance history |
-| 📊 | **Parent Dashboard** | Weekly progress reports in the parent's own language — no English required |
-| 🌐 | **Offline-First** | Cached explanations and on-device fallback model for low-connectivity villages |
+| 📷 | **1. Live Camera Translation** | Point the camera at any textbook line or paragraph — translates in real-time directly on-device in a persistent lower bottom-sheet in 10+ regional Indian languages. |
+| 📊 | **2. Diagnostic Performance Analysis** | Multi-format assessments (MCQ, Short Answer, Long Answer, Logical Reasoning) that diagnose weak sub-topics and adapt subsequent lessons. |
+| 📅 | **3. Exam & Spaced Revision Planner** | Input upcoming exam dates to automatically generate a 3-phase revision cycle (Foundations $\to$ Drills $\to$ Mock Tests). |
+| 💡 | **4. Multimodal Doubt Solver** | Photograph a textbook problem, upload a PDF, or type a doubt for deep step-by-step reasoning and everyday real-world examples. |
+| 🌱 | **5. Anti-Rote Progressive Simplification** | Explains according to the student's cognitive level. If the student does not understand, one tap simplifies it further: **Level 1 (Concept) $\to$ Level 2 (Story/Analogy) $\to$ Level 3 (Concrete Steps)**. |
+| 🛑 | **6. In-Lesson Interactive Recaps** | Pauses long lessons at cognitive stops with micro-questions and recall checks to guarantee mastery before advancing. |
+| 🧠 | **7. Socratic Reasoning & Inquiry** | Guides students through step-by-step thinking rather than handing out raw answers to homework. |
+| 📝 | **8. Exam-Ready Test Preparation** | Generates tailored mock examinations aligned with the student's exact class syllabus (Classes 1 to 8). |
+| ✍️ | **9. Question Paper & Answer Sheet Grader** | Upload school question papers and student handwritten answer sheets; the vision engine grades step-by-step and estimates scores. |
+| 👨‍🏫 | **10. Teacher Evaluation Pattern Insights** | Identifies why marks were deducted (e.g., omitted formulas, missing units, missing arrows in diagrams) and aligns students with teacher marking criteria. |
 
 ---
 
-## 🏗️ Architecture
+## 📂 Repository Structure
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                   📱  React Native App                   │
-│      Camera OCR  ·  Voice UI  ·  Chat  ·  Test Screen     │
-└───────────────────────────┬───────────────────────────────┘
-                            │ REST / WebSocket
-┌───────────────────────────▼───────────────────────────────┐
-│                  ☕  Spring Boot Gateway                  │
-│        Auth  ·  Student Profiles  ·  Progress Tracker     │
-└───────────────────────────┬───────────────────────────────┘
-                            │
-┌───────────────────────────▼───────────────────────────────┐
-│              🦜  LangChain Orchestration Layer             │
-│         Agent  ·  RAG Pipeline  ·  Translation Service     │
-└───────────────────────────┬───────────────────────────────┘
-                            │
-┌───────────────────────────▼───────────────────────────────┐
-│         🤖  Ollama  ·  Gemma-4  ·  Whisper  ·  NLLB     │
-└───────────────────────────┬───────────────────────────────┘
-                            │
-┌───────────────────────────▼───────────────────────────────┐
-│      🍃 MongoDB   ·   🐘 PostgreSQL   ·   🎨 ChromaDB      │
-└─────────────────────────────────────────────────────────┘
-```
-
-<div align="center">
-<a href="https://github.com/Sain-Kai/vidya-mitra/blob/main/docs/architecture.md">
-<img src="https://img.shields.io/badge/📐_View_Full_Architecture_Doc-673AB7?style=for-the-badge" alt="arch-doc"/>
-</a>
-</div>
-
----
-
-## 🛠️ Tech Stack
-
-<table>
-<tr>
-<td valign="top" width="33%">
-
-**Frontend**
-- React Native
-- Vision Camera (OCR)
-- React Navigation
-- Redux Toolkit
-
-</td>
-<td valign="top" width="33%">
-
-**Backend**
-- Spring Boot 3
-- Spring Security (JWT)
-- Spring Data MongoDB
-- Spring Data JPA
-
-</td>
-<td valign="top" width="33%">
-
-**AI / ML**
-- LangChain
-- Ollama (Phi-3 Mini)
-- HuggingFace Transformers
-- ChromaDB + NLLB-200
-- Whisper (STT)
-
-</td>
-</tr>
-<tr>
-<td valign="top" width="33%">
-
-**Databases**
-- MongoDB (profiles, chat)
-- PostgreSQL (tests, scores)
-- ChromaDB (vector store)
-- Redis (cache, queue)
-
-</td>
-<td valign="top" width="33%">
-
-**Infra**
-- Docker + Compose
-- GitHub Actions CI/CD
-- Firebase Cloud Messaging
-- Render / Railway hosting
-
-</td>
-<td valign="top" width="33%">
-
-**Languages**
-- Java 17
-- TypeScript
-- Python (FastAPI svc)
-
-</td>
-</tr>
-</table>
-
----
-
-## 📂 Project Structure
-
-```
-vidya-mitra/
-├── 📱 mobile-app/                 # React Native client
+Vidya-Mitra/
+├── 📱 mobile-app/               # React Native cross-platform mobile client
+│   ├── android/                 # Android native project & gradle wrapper
+│   ├── ios/                     # iOS native project & Podfile
 │   ├── src/
-│   │   ├── screens/
-│   │   │   ├── CameraTranslate/
-│   │   │   ├── TutorChat/
-│   │   │   └── TestScreen/
-│   │   ├── components/
-│   │   └── services/api.ts
-│   └── package.json
+│   │   ├── components/          # Reusable UI components (GradientCard, SubjectGrid, etc.)
+│   │   ├── constants/           # Color palettes, Indic language codes
+│   │   ├── navigation/          # React Navigation RootNavigator (all screens)
+│   │   └── screens/             # 9 core screens:
+│   │       ├── SplashScreen.js        # Animated welcome screen
+│   │       ├── HomeScreen.js          # Student/Parent dual-mode home
+│   │       ├── LiveTranslateScreen.js # Camera OCR + lower translation sheet
+│   │       ├── TutorChatScreen.js     # Socratic chat + progressive simplification
+│   │       ├── AssessmentScreen.js    # MCQ, Long, Short & Logical testing
+│   │       ├── DoubtSolverScreen.js   # Study material & photo doubt explainer
+│   │       ├── ExamPlannerScreen.js   # Spaced repetition revision calendar
+│   │       ├── PaperEvaluatorScreen.js# Question paper & answer sheet grader
+│   │       └── PerformanceScreen.js   # Weakness analysis & parent audio report
+│   ├── package.json
+│   └── App.js
 │
-├── ☕ backend/                    # Spring Boot gateway
+├── ☕ backend/                  # Spring Boot 3 Gateway & Cognitive Profiler
 │   ├── src/main/java/com/vidyamitra/
-│   │   ├── auth/
-│   │   ├── student/
-│   │   ├── session/
-│   │   └── progress/
-│   └── pom.xml
+│   │   ├── controller/          # REST endpoints (students, evaluation, schedules)
+│   │   ├── model/               # StudentProfile, ExamSchedule, PaperEvaluationRecord
+│   │   └── service/             # SpacedRepetitionScheduler, TeacherGradingAnalyzer
+│   ├── src/main/resources/      # application.yml
+│   ├── pom.xml                  # Maven dependencies (Java 17, Spring Boot 3.3)
+│   └── Dockerfile
 │
-├── 🐍 ai-service/                 # FastAPI + LangChain
+├── 🐍 ai-service/               # FastAPI + LangChain AI & Vision Engine
 │   ├── app/
-│   │   ├── rag/
-│   │   ├── translation/
-│   │   ├── voice/
-│   │   └── agents/tutor_agent.py
-│   └── requirements.txt
+│   │   ├── services/
+│   │   │   ├── translation_engine.py  # IndicTrans2 / NLLB multi-Indic translation
+│   │   │   ├── socratic_tutor.py      # Progressive simplification tutor
+│   │   │   └── exam_evaluator.py      # Multimodal question paper & answer grader
+│   │   └── main.py              # FastAPI endpoints
+│   ├── requirements.txt
+│   └── Dockerfile
 │
-├── 🧠 finetuning/                 # Model training pipeline
-│   ├── datasets/ncert_pairs.jsonl
-│   └── train_qlora.py
+├── 🧠 ml-training/              # Kaggle GPU Fine-Tuning Pipeline
+│   ├── configs/                 # QLoRA configs (Phi-3.5, Nemotron-4B, Gemma-2)
+│   ├── dataset_generator/       # NCERT Socratic training data generator
+│   └── kaggle_notebooks/        # Turnkey Kaggle Python training scripts
 │
-├── 🐳 docker-compose.yml
-└── 📄 README.md
+├── 📚 datasets/                 # NCERT Multilingual Curricula (Classes 1 to 8)
+│   └── ncert_curricula/         # Textbooks in English, Bengali, Hindi, Tamil, Telugu
+│
+├── 📖 docs/                     # Specifications & Architecture
+│   ├── ARCHITECTURE.md          # Complete system & pedagogical architecture
+│   ├── KAGGLE_FINETUNING_GUIDE.md # Step-by-step Kaggle GPU fine-tuning guide
+│   └── assets/screenshots/      # App emulator screenshots
+│
+├── 📦 LIBRARIES_INSTALLED.md    # Dependency and package audit log for cleanup
+├── 🐳 docker-compose.yml        # Orchestration (MongoDB, Postgres, Redis, ChromaDB, AI, Backend)
+├── 📄 package.json              # Monorepo command runner
+└── 📄 LICENSE                   # MIT License
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-<p>
-  <img src="https://img.shields.io/badge/Node.js-≥18-339933?style=flat-square&logo=node.js&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Java-≥17-ED8B00?style=flat-square&logo=openjdk&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Python-≥3.10-3776AB?style=flat-square&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Docker-required-2496ED?style=flat-square&logo=docker&logoColor=white"/>
-</p>
-
-### 1️⃣ Clone the repository
-
+### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/Sain-Kai/vidya-mitra.git
-cd vidya-mitra
+git clone https://github.com/Sain-Kai/Vidya-Mitra.git
+cd Vidya-Mitra
 ```
 
-### 2️⃣ Spin up the databases
-
+### 2️⃣ Start Infrastructure with Docker Compose
 ```bash
-docker-compose up -d mongodb postgres redis chromadb
+docker-compose up -d
 ```
 
-### 3️⃣ Start the AI service (LangChain + Ollama)
-
+### 3️⃣ Run the AI Microservice (FastAPI)
 ```bash
 cd ai-service
-python -m venv venv && source venv/bin/activate
+python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-
-# Pull the fine-tuned model
-ollama pull phi3:mini
-ollama run phi3:mini
-
 uvicorn app.main:app --reload --port 8000
 ```
 
-### 4️⃣ Start the Spring Boot backend
-
+### 4️⃣ Run the Backend Gateway (Spring Boot)
 ```bash
 cd backend
-./mvnw clean install
 ./mvnw spring-boot:run
 ```
 
-### 5️⃣ Run the mobile app
-
+### 5️⃣ Run the Mobile Application (React Native)
 ```bash
 cd mobile-app
 npm install
-npx react-native run-android   # or run-ios
-```
 
-<div align="center">
-<img src="https://img.shields.io/badge/✅_You're_all_set!-00C853?style=for-the-badge" alt="done"/>
-</div>
+# For Android:
+npm run android
 
----
-
-## ⚙️ Environment Variables
-
-Create a `.env` file in `backend/` and `ai-service/`:
-
-```env
-# backend/.env
-MONGO_URI=mongodb://localhost:27017/vidyamitra
-POSTGRES_URL=jdbc:postgresql://localhost:5432/vidyamitra
-JWT_SECRET=your_jwt_secret_here
-FCM_SERVER_KEY=your_firebase_key
-AI_SERVICE_URL=http://localhost:8000
-
-# ai-service/.env
-OLLAMA_HOST=http://localhost:11434
-CHROMA_DB_PATH=./chroma_store
-NLLB_MODEL=facebook/nllb-200-distilled-600M
-WHISPER_MODEL=openai/whisper-small
+# For iOS:
+npm run ios
 ```
 
 ---
 
-## 📡 API Reference
+## 🧠 Fine-Tuning LLMs on Kaggle Free Tier
 
-| Method | Endpoint | Description |
-|--------|----------|--------------|
-| `POST` | `/api/auth/register` | Register a parent account |
-| `POST` | `/api/auth/login` | Login, returns JWT |
-| `POST` | `/api/students` | Create a child profile |
-| `POST` | `/api/tutor/ask` | Ask the LLM tutor a question |
-| `POST` | `/api/translate/ocr` | Translate camera-detected text |
-| `POST` | `/api/voice/stt` | Speech → text |
-| `POST` | `/api/voice/tts` | Text → speech |
-| `GET`  | `/api/tests/generate/{studentId}` | Generate a scheduled test |
-| `GET`  | `/api/progress/{studentId}/weekly` | Get weekly progress report |
+Vidya Mitra provides turnkey QLoRA pipelines for fine-tuning compact, high-reasoning models on Kaggle's free GPU tier (T4 or P100):
+- **Microsoft Phi-3.5-mini-instruct (3.8B)**
+- **NVIDIA Nemotron-Mini-4B-Instruct**
+- **Google Gemma-2-2B / 9B**
 
-<details>
-<summary><b>📦 Example: Ask the tutor</b></summary>
-
-```bash
-curl -X POST http://localhost:8080/api/tutor/ask \
-  -H "Authorization: Bearer <JWT>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "studentId": "64f3a1b2c3d4e5f6a7b8c9d1",
-    "subject": "mathematics",
-    "topic": "multiplication",
-    "question": "3 times 7 kya hota hai?",
-    "language": "hi"
-  }'
-```
-
-**Response**
-
-```json
-{
-  "answer": "3 times 7 hota hai 21! Socho 3 doston ke paas 7-7 toffees hain...",
-  "audioUrl": "https://cdn.vidyamitra.app/tts/msg_4.ogg",
-  "ragSources": ["ncert_class3_math_ch4_p15"],
-  "latencyMs": 840
-}
-```
-
-</details>
-
----
-
-## 🗺️ Roadmap
-
-- [x] Spring Boot gateway + auth
-- [x] MongoDB schema (profiles, sessions, messages)
-- [x] RAG pipeline over NCERT Class 1–5
-- [x] Camera OCR + live translation overlay
-- [ ] Phi-3 Mini fine-tuning (QLoRA) — *in progress*
-- [ ] Whisper STT fine-tune for Indian accents
-- [ ] Offline on-device model (llama.cpp)
-- [ ] Multi-child family dashboard
-- [ ] Regional language expansion (12 → 22 languages)
-
----
-
-## 🤝 Contributing
-
-Contributions are what make the open-source community such an amazing place to learn and build. Any contribution is **greatly appreciated**.
-
-```bash
-# 1. Fork the repo
-# 2. Create your feature branch
-git checkout -b feature/AmazingFeature
-
-# 3. Commit your changes
-git commit -m "Add some AmazingFeature"
-
-# 4. Push to the branch
-git push origin feature/AmazingFeature
-
-# 5. Open a Pull Request
-```
-
-<div align="center">
-<a href="https://github.com/Sain-Kai/vidya-mitra/issues">
-<img src="https://img.shields.io/badge/🐛_Report_Bug-D32F2F?style=for-the-badge" alt="bug"/>
-</a>
-<a href="https://github.com/Sain-Kai/vidya-mitra/issues">
-<img src="https://img.shields.io/badge/💡_Request_Feature-1976D2?style=for-the-badge" alt="feature"/>
-</a>
-</div>
+👉 **[Kaggle Fine-Tuning Guide (docs/KAGGLE_FINETUNING_GUIDE.md)](docs/KAGGLE_FINETUNING_GUIDE.md)**
 
 ---
 
 ## 📄 License
 
-Distributed under the **MIT License**. See `LICENSE` for more information.
-
----
-
-## 👤 Author
+Distributed under the **MIT License**. See `LICENSE` for details.
 
 <div align="center">
-
-**Sain**
-*AI Engineer · Java Backend Developer*
-
-<p>
-  <a href="https://github.com/Sain-Kai">
-    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="github"/>
-  </a>
-  <a href="https://linkedin.com/in/your-profile">
-    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="linkedin"/>
-  </a>
-</p>
-
----
-
-<sub>Built with ❤️ for every parent who just wants to understand their child's homework.</sub>
-
+<sub>Built with ❤️ for every student striving for understanding and every parent supporting their child's dreams.</sub>
 </div>
->>>>>>> origin/main
