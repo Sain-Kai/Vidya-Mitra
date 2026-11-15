@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: FastAPI AI microservice active with endpoints for IndicTrans2 translation, Socratic tutoring, and paper grading.
-* **Decided Next Stage**: **Set up Kaggle GPU fine-tuning pipelines and QLoRA configs**.
+* **Current Status**: Kaggle GPU fine-tuning pipeline ready with QLoRA configs, Socratic dataset synthesis, and training scripts.
+* **Decided Next Stage**: **Configure monorepo orchestration, containerization, and dependency tracking audit log**.
 
 ---
 
