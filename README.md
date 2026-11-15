@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Mobile application feature set (all 9 screens and navigation routes) complete.
-* **Decided Next Stage**: **Reorganize NCERT multilingual textbook curricula**.
+* **Current Status**: NCERT Class 1 multilingual textbook datasets organized and documented across 5 Indian languages.
+* **Decided Next Stage**: **Establish Spring Boot microservice gateway and persistence domain models**.
 
 ---
 
