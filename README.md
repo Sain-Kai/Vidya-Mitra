@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Root directory cleaned; duplicate directories removed and screenshots organized into docs/assets/screenshots/.
-* **Decided Next Stage**: **Relocate React Native client into dedicated mobile-app/ directory**.
+* **Current Status**: React Native client cleanly decoupled and relocated to mobile-app/ sub-package.
+* **Decided Next Stage**: **Implement modular UI components and Class 1-8 subject catalog**.
 
 ---
 
