@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Spring Boot 3 gateway established with student cognitive profiler and teacher pattern analysis services.
-* **Decided Next Stage**: **Create FastAPI AI engine with Indic translation and Socratic reasoning services**.
+* **Current Status**: FastAPI AI microservice active with endpoints for IndicTrans2 translation, Socratic tutoring, and paper grading.
+* **Decided Next Stage**: **Set up Kaggle GPU fine-tuning pipelines and QLoRA configs**.
 
 ---
 
