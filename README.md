@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Welcoming animated splash screen and RootNavigator stack configured.
-* **Decided Next Stage**: **Develop dual-mode home screen for students and parents**.
+* **Current Status**: Dual-persona dashboard (Student / Parent) operational with learning streaks and quick action routing.
+* **Decided Next Stage**: **Implement real-time live camera translation screen**.
 
 ---
 
