@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Exam revision planner screen operational with automated 3-phase revision milestones.
-* **Decided Next Stage**: **Implement question paper and handwritten answer sheet evaluator**.
+* **Current Status**: Question paper and handwritten answer sheet evaluator screen created with score estimation and teacher pattern insights.
+* **Decided Next Stage**: **Implement performance analytics and parent audio summary screen**.
 
 ---
 
