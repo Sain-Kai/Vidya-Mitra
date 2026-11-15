@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Live camera OCR translation screen implemented with 10 Indic languages selector and persistent bottom sheet.
-* **Decided Next Stage**: **Build Socratic AI tutor interface with progressive simplification**.
+* **Current Status**: Socratic tutor screen operational with 3-tier progressive simplification cascade and in-lesson recall stops.
+* **Decided Next Stage**: **Implement interactive multi-format diagnostic assessment screen**.
 
 ---
 
