@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Socratic tutor screen operational with 3-tier progressive simplification cascade and in-lesson recall stops.
-* **Decided Next Stage**: **Implement interactive multi-format diagnostic assessment screen**.
+* **Current Status**: Multi-format diagnostic testing interface (MCQ, Short, Long, Logical) with weakness analysis active.
+* **Decided Next Stage**: **Build multimodal doubt solver and study material explainer screen**.
 
 ---
 
