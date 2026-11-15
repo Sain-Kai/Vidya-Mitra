@@ -35,8 +35,8 @@
 
 ## 📌 Project Status & Next Stage
 
-* **Current Status**: Doubt solver screen ready for text, photo, and PDF homework ingestion with step-by-step reasoning.
-* **Decided Next Stage**: **Implement smart exam revision planner and timetable generator**.
+* **Current Status**: Exam revision planner screen operational with automated 3-phase revision milestones.
+* **Decided Next Stage**: **Implement question paper and handwritten answer sheet evaluator**.
 
 ---
 
