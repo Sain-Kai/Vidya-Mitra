@@ -3,3 +3,6 @@ export { GradientCard } from './GradientCard';
 export { MotivationalBanner } from './MotivationalBanner';
 export { SectionHeader } from './SectionHeader';
 export { SubjectGrid } from './SubjectGrid';
+export { LanguageSelectorBar, INDIC_LANGUAGES } from './LanguageSelectorBar';
+export { CameraReticle } from './CameraReticle';
+export { TranslationMeaningCard } from './TranslationMeaningCard';

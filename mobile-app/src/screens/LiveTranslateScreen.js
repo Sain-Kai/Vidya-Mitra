@@ -1,122 +1,221 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet, View, Text, TouchableOpacity,
-  ScrollView, SafeAreaView, StatusBar, Dimensions
+  ScrollView, SafeAreaView, StatusBar
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { COLORS, SPACING, RADIUS, SHADOWS } from '../constants/colors';
+import { COLORS, SPACING } from '../constants/colors';
+import { translateTextApi } from '../api/translationApi';
+import {
+  LanguageSelectorBar,
+  INDIC_LANGUAGES,
+  CameraReticle,
+  TranslationMeaningCard
+} from '../components';
 
-const { width } = Dimensions.get('window');
-
-const SUPPORTED_LANGUAGES = [
-  { code: 'hi', name: 'Hindi', native: 'हिन्दी' },
-  { code: 'bn', name: 'Bengali', native: 'বাংলা' },
-  { code: 'te', name: 'Telugu', native: 'తెలుగు' },
-  { code: 'ta', name: 'Tamil', native: 'தமிழ்' },
-  { code: 'mr', name: 'Marathi', native: 'मराठी' },
-  { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી' },
-  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ' },
-  { code: 'ml', name: 'Malayalam', native: 'മലയാളം' },
-  { code: 'pa', name: 'Punjabi', native: 'ਪੰਜਾਬੀ' },
-  { code: 'or', name: 'Odia', native: 'ଓଡ଼ିଆ' },
+const PRESET_TEXTBOOK_PASSAGES = [
+  {
+    id: 'p1',
+    label: 'Photosynthesis',
+    text: 'Plants make their food using sunlight, water, and carbon dioxide through a process called photosynthesis.',
+  },
+  {
+    id: 'p2',
+    label: 'Water Cycle',
+    text: 'The water cycle moves water continuously between earth and sky through evaporation, condensation, and rain.',
+  },
+  {
+    id: 'p3',
+    label: 'Fractions',
+    text: 'A fraction represents a part of a whole quantity, divided into equal portions like half and quarter.',
+  },
 ];
 
+const LOCAL_FALLBACK_TRANSLATIONS = {
+  photosynthesis: {
+    hi: {
+      text: 'पौधे प्रकाश संश्लेषण नामक प्रक्रिया द्वारा धूप, पानी और कार्बन डाइऑक्साइड से अपना भोजन बनाते हैं।',
+      note: 'जैसे घर में रसोई होती है, वैसे ही हरी पत्तियां धूप और पानी मिलाकर पौधे का भोजन पकाती हैं।',
+    },
+    bn: {
+      text: 'গাছপালা সূর্যালোক, জল এবং কার্বন ডাই অক্সাইড ব্যবহার করে সালোকসংশ্লেষ নামক প্রক্রিয়ার মাধ্যমে তাদের খাদ্য তৈরি করে।',
+      note: 'রান্নাঘরের মতো গাছের সবুজ পাতা রোদ আর জল মিশিয়ে গাছের জন্য খাবার তৈরি করে।',
+    },
+    te: {
+      text: 'మొక్కలు సూర్యరశ్మి, నీరు మరియు కార్బన్ డయాక్సైడ్ ఉపయోగించి కిరణజన్య సంయోగక్రియ అనే ప్రక్రియ ద్వారా తమ ఆహారాన్ని తయారు చేసుకుంటాయి.',
+      note: 'వంటింట్లో వంట చేసినట్లే, ఆకులు ఎండ మరియు నీటితో మొక్కకు అవసరమైన ఆహారాన్ని తయారు చేస్తాయి.',
+    },
+    ta: {
+      text: 'தாவரங்கள் சூரிய ஒளி, நீர் மற்றும் கார்பன் டை ஆக்சைடைப் பயன்படுத்தி ஒளிச்சேர்க்கை எனப்படும் செயல்முறை மூலம் தங்களின் உணவை உருவாக்குகின்றன.',
+      note: 'அம்மா சமையலறையில் உணவு சமைப்பது போல, மரத்தின் பச்சை இலைகள் சூரிய ஒளியால் உணவு தயாரிக்கின்றன.',
+    },
+    mr: {
+      text: 'वनस्पती सूर्यप्रकाश, पाणी आणि कार्बन डायऑक्साइडचा वापर करून प्रकाशसंश्लेषण नावाच्या प्रक्रियेद्वारे स्वतःचे अन्न तयार करतात.',
+      note: 'स्वयंपाकघरासारखे झाडांची पाने सूर्यप्रकाश आणि पाण्याने झाडासाठी गोड अन्न शिजवतात.',
+    },
+    gu: {
+      text: 'વનસ્પતિઓ સૂર્યપ્રકાશ, પાણી અને કાર્બન ડાયોક્સાઇડનો ઉપયોગ કરીને પ્રકાશસંશ્લેષણ નામની પ્રક્રિયા દ્વારા પોતાનો ખોરાક બનાવે છે.',
+      note: 'રસોડાની જેમ છોડના પાંદડા સૂર્યપ્રકાશ અને પાણીથી પોતાનો ખોરાક તૈયાર કરે છે.',
+    },
+    kn: {
+      text: 'ಸಸ್ಯಗಳು ಸೂರ್ಯನ ಬೆಳಕು, ನೀರು ಮತ್ತು ಇಂಗಾಲದ ಡೈಆಕ್ಸೈಡ್ ಬಳಸಿ ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ ಎಂಬ ಪ್ರಕ್ರಿಯೆಯ ಮೂಲಕ ತಮ್ಮ ಆಹಾರವನ್ನು ತಯಾರಿಸುತ್ತವೆ.',
+      note: 'ಮನೆಯಲ್ಲಿ ಅಡುಗೆ ಮಾಡುವಂತೆ, ಎಲೆಗಳು ಬಿಸಿಲು ಮತ್ತು ನೀರಿನಿಂದ ಗಿಡಕ್ಕೆ ಊಟ ತಯಾರು ಮಾಡುತ್ತವೆ.',
+    },
+    ml: {
+      text: 'സസ്യങ്ങൾ സൂര്യപ്രകാശം, ജലം, കാർബൺ ഡൈ ഓക്സൈഡ് എന്നിവ ഉപയോഗിച്ച് പ്രകാശസംശ്ലേഷണം എന്ന പ്രക്രിയയിലൂടെ ഭക്ഷണം ഉണ്ടാക്കുന്നു.',
+      note: 'അടുക്കളയിൽ ഭക്ഷണം പാകം ചെയ്യുന്നത് പോലെ, ചെടിയുടെ പച്ച ഇലകൾ വെയിലും വെള്ളവും ചേർത്ത് ഭക്ഷണം ഉണ്ടാക്കുന്നു.',
+    },
+    pa: {
+      text: 'ਪੌਦੇ ਸੂਰਜ ਦੀ ਰੌਸ਼ਨੀ, ਪਾਣੀ ਅਤੇ ਕਾਰਬਨ ਡਾਈਆਕਸਾਈਡ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਪ੍ਰਕਾਸ਼ ਸੰਸਲੇਸ਼ਣ ਰਾਹੀਂ ਆਪਣਾ ਭੋਜਨ ਬਣਾਉਂਦੇ ਹਨ।',
+      note: 'ਜਿਵੇਂ ਰਸੋਈ ਵਿਚ ਖਾਣਾ ਪੱਕਦਾ ਹੈ, ਉਵੇਂ ਹੀ ਹਰੇ ਪੱਤੇ ਧੁੱਪ ਅਤੇ ਪਾਣੀ ਨਾਲ ਪੌਦੇ ਦੀ ਰੋਟੀ ਬਣਾਉਂਦੇ ਹਨ।',
+    },
+    or: {
+      text: 'ଉଦ୍ଭିଦମାନେ ସୂର୍ଯ୍ୟାଲୋକ, ଜଳ ଏବଂ ଅଙ୍ଗାରକାମ୍ଳ ବ୍ୟବହାର କରି ଆଲୋକଶ୍ଳେଷଣ ପ୍ରକ୍ରିୟା ମାଧ୍ୟମରେ ନିଜ ଖାଦ୍ୟ ପ୍ରସ୍ତୁତ କରନ୍ତି।',
+      note: 'ରୋଷେଇ ଘର ପରି ଗଛର ସବୁଜ ପତ୍ର ଖରା ଏବଂ ପାଣି ମିଶାଇ ନିଜ ପାଇଁ ମିଠା ଖାଦ୍ୟ ତିଆରି କରେ।',
+    },
+  },
+  water_cycle: {
+    hi: {
+      text: 'जल चक्र वाष्पीकरण, संघनन और वर्षा के माध्यम से पृथ्वी और आकाश के बीच पानी को लगातार घुमाता है।',
+      note: 'नदी का पानी भाप बनकर बादल बनता है और फिर बारिश बनकर वापस आ जाता है।',
+    },
+    bn: {
+      text: 'জলচক্র বাষ্পীভবন, ঘনীভবন এবং বৃষ্টির মাধ্যমে পৃথিবী এবং আকাশের মধ্যে জলকে ক্রমাগত সঞ্চালিত করে।',
+      note: 'নদীর জল বাষ্প হয়ে আকাশে মেঘ হয়, তারপর আবার বৃষ্টি হয়ে মাটিতে ফিরে আসে।',
+    },
+  },
+  fractions: {
+    hi: {
+      text: 'भिन्न किसी पूर्ण वस्तु के एक भाग को दर्शाता है, जैसे बराबर हिस्सों में बांटा गया आधा या चौथाई हिस्सा।',
+      note: 'एक पूरी रोटी के दो टुकड़े करो, तो हर टुकड़ा आधा भिन्न कहलाता है।',
+    },
+    bn: {
+      text: 'ভগ্নাংশ একটি সম্পূর্ণ জিনিসের অংশ প্রকাশ করে, যেমন সমান ভাগে ভাগ করা অর্ধেক বা এক চতুর্থাংশ।',
+      note: 'একটি রুটি সমান দুই ভাগ করলে প্রতিটি অংশকে অর্ধেক ভগ্নাংশ বলে।',
+    },
+  },
+};
+
 export const LiveTranslateScreen = ({ navigation }) => {
-  const [targetLang, setTargetLang] = useState(SUPPORTED_LANGUAGES[0]);
-  const [selectedText, setSelectedText] = useState(
-    'Plants make their food using sunlight, water, and carbon dioxide through a process called photosynthesis.'
-  );
+  const [targetLang, setTargetLang] = useState(INDIC_LANGUAGES[0]);
+  const [selectedPassage, setSelectedPassage] = useState(PRESET_TEXTBOOK_PASSAGES[0]);
   const [translatedText, setTranslatedText] = useState(
-    'पौधे प्रकाश संश्लेषण नामक एक प्रक्रिया के माध्यम से धूप, पानी और कार्बन डाइऑक्साइड का उपयोग करके अपना भोजन बनाते हैं।'
+    LOCAL_FALLBACK_TRANSLATIONS.photosynthesis.hi.text
+  );
+  const [childNote, setChildNote] = useState(
+    LOCAL_FALLBACK_TRANSLATIONS.photosynthesis.hi.note
   );
   const [isTranslating, setIsTranslating] = useState(false);
   const [explanationMode, setExplanationMode] = useState(false);
+  const [selectionMode, setSelectionMode] = useState('paragraph');
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  const handleTranslate = (text, lang) => {
-    setIsTranslating(true);
-    // Real-time on-device translation simulation / IndicTrans2 integration hook
-    setTimeout(() => {
-      if (lang.code === 'hi') {
-        setTranslatedText(
-          'पौधे प्रकाश संश्लेषण (Photosynthesis) के माध्यम से धूप, पानी और हवा से अपना भोजन बनाते हैं।'
+  useEffect(() => {
+    let isMounted = true;
+    const performLiveTranslation = async () => {
+      setIsTranslating(true);
+      try {
+        const apiResponse = await translateTextApi(
+          selectedPassage.text,
+          targetLang.code,
+          'en'
         );
-      } else if (lang.code === 'bn') {
-        setTranslatedText(
-          'গাছপালা সূর্যালোক, জল এবং কার্বন ডাই অক্সাইড ব্যবহার করে সালোকসংশ্লেষ নামক প্রক্রিয়ার মাধ্যমে তাদের খাদ্য তৈরি করে।'
-        );
-      } else if (lang.code === 'te') {
-        setTranslatedText(
-          'మొక్కలు సూర్యరశ్మి, నీరు మరియు కార్బన్ డయాక్సైడ్ ఉపయోగించి కిరణజన్య సంయోగక్రియ అనే ప్రక్రియ ద్వారా ఆహారాన్ని తయారు చేసుకుంటాయి.'
-        );
-      } else if (lang.code === 'ta') {
-        setTranslatedText(
-          'தாவரங்கள் சூரிய ஒளி, நீர் மற்றும் கார்பன் டை ஆக்சைடைப் பயன்படுத்தி ஒளிச்சேர்க்கை எனப்படும் செயல்முறை மூலம் தங்களின் உணவை உருவாக்குகின்றன.'
-        );
-      } else {
-        setTranslatedText(`[${lang.name}] ${text}`);
+
+        if (!isMounted) return;
+
+        if (apiResponse && apiResponse.translated_text) {
+          setTranslatedText(apiResponse.translated_text);
+          setChildNote(apiResponse.child_friendly_explanation || '');
+        } else {
+          resolveLocalFallback();
+        }
+      } catch (err) {
+        if (isMounted) resolveLocalFallback();
+      } finally {
+        if (isMounted) setIsTranslating(false);
       }
-      setIsTranslating(false);
-    }, 400);
+    };
+
+    const resolveLocalFallback = () => {
+      let topicKey = 'photosynthesis';
+      if (selectedPassage.id === 'p2') topicKey = 'water_cycle';
+      if (selectedPassage.id === 'p3') topicKey = 'fractions';
+
+      const topicDict = LOCAL_FALLBACK_TRANSLATIONS[topicKey];
+      if (topicDict && topicDict[targetLang.code]) {
+        setTranslatedText(topicDict[targetLang.code].text);
+        setChildNote(topicDict[targetLang.code].note);
+      } else {
+        setTranslatedText(`${targetLang.name} Translation: ${selectedPassage.text}`);
+        setChildNote(`सरल अर्थ: ${selectedPassage.text}`);
+      }
+    };
+
+    performLiveTranslation();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [targetLang, selectedPassage]);
+
+  const handleAudioPlayback = () => {
+    setIsPlayingAudio(true);
+    setTimeout(() => {
+      setIsPlayingAudio(false);
+    }, 2000);
+  };
+
+  const handleAskTutor = () => {
+    if (navigation && navigation.navigate) {
+      navigation.navigate('TutorChat', {
+        topic: selectedPassage.label,
+        initialQuestion: `Can you explain ${selectedPassage.label} with real world examples?`,
+      });
+    }
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#1e1e2d" />
-      
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation && navigation.goBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>←</Text>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#0e0e17" />
+
+      <View style={styles.topHeader}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation && navigation.goBack && navigation.goBack()}
+        >
+          <Text style={styles.backArrow}>←</Text>
         </TouchableOpacity>
-        <View style={styles.headerTitleWrap}>
-          <Text style={styles.headerTitle}>Live Camera Translation</Text>
-          <Text style={styles.headerSub}>Point camera at textbook line • On-Device</Text>
+        <View style={styles.titleArea}>
+          <Text style={styles.screenTitle}>Live Indic Lens</Text>
+          <Text style={styles.screenSub}>Real-Time Camera Translation</Text>
         </View>
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>⚡ Realtime</Text>
-        </View>
-      </View>
-
-      {/* Camera Viewfinder Simulation / Feed */}
-      <View style={styles.viewfinderContainer}>
-        <View style={styles.viewfinder}>
-          {/* Target Reticle / Selection Box */}
-          <View style={styles.selectionBox}>
-            <View style={[styles.corner, styles.cornerTL]} />
-            <View style={[styles.corner, styles.cornerTR]} />
-            <View style={[styles.corner, styles.cornerBL]} />
-            <View style={[styles.corner, styles.cornerBR]} />
-
-            <View style={styles.scannedLine}>
-              <Text style={styles.scannedText}>
-                {selectedText}
-              </Text>
-            </View>
-          </View>
-          <Text style={styles.hintText}>📸 Position textbook text within the frame</Text>
+        <View style={styles.liveIndicator}>
+          <View style={styles.liveDot} />
+          <Text style={styles.badgeText}>LIVE</Text>
         </View>
       </View>
 
-      {/* Language Selector Bar */}
-      <View style={styles.langSelectorWrap}>
-        <Text style={styles.langLabel}>Translate into:</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.langScroll}>
-          {SUPPORTED_LANGUAGES.map((lang) => {
-            const isSelected = lang.code === targetLang.code;
+      <View style={styles.passageSelectorRow}>
+        <Text style={styles.selectorLabel}>Sample Textbook Passage:</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.passageScroll}
+        >
+          {PRESET_TEXTBOOK_PASSAGES.map(item => {
+            const isSelected = selectedPassage.id === item.id;
             return (
               <TouchableOpacity
-                key={lang.code}
-                style={[styles.langChip, isSelected && styles.langChipActive]}
-                onPress={() => {
-                  setTargetLang(lang);
-                  handleTranslate(selectedText, lang);
-                }}
+                key={item.id}
+                style={[styles.passageChip, isSelected && styles.passageChipActive]}
+                onPress={() => setSelectedPassage(item)}
               >
-                <Text style={[styles.langChipNative, isSelected && styles.langChipTextActive]}>
-                  {lang.native}
-                </Text>
-                <Text style={[styles.langChipText, isSelected && styles.langChipTextActive]}>
-                  {lang.name}
+                <Text
+                  style={[
+                    styles.passageChipText,
+                    isSelected && styles.passageChipTextActive,
+                  ]}
+                >
+                  {item.label}
                 </Text>
               </TouchableOpacity>
             );
@@ -124,246 +223,122 @@ export const LiveTranslateScreen = ({ navigation }) => {
         </ScrollView>
       </View>
 
-      {/* Bottom Translation Display Box (Requirement #1) */}
-      <View style={styles.bottomCard}>
-        <View style={styles.bottomCardHeader}>
-          <View style={styles.outputTitleRow}>
-            <Text style={styles.outputIcon}>📖</Text>
-            <Text style={styles.outputTitle}>Meaning ({targetLang.name} / {targetLang.native}):</Text>
-          </View>
-          <TouchableOpacity
-            style={styles.speakButton}
-            onPress={() => {
-              // Trigger TTS in chosen language
-            }}
-          >
-            <Text style={styles.speakText}>🔊 Read Aloud</Text>
-          </TouchableOpacity>
-        </View>
+      <CameraReticle
+        selectionMode={selectionMode}
+        onToggleMode={mode => setSelectionMode(mode)}
+        samplePassageText={selectedPassage.text}
+      />
 
-        <ScrollView style={styles.translationScrollView}>
-          <Text style={styles.translationText}>
-            {isTranslating ? 'Translating in real-time...' : translatedText}
-          </Text>
+      <LanguageSelectorBar
+        selectedCode={targetLang.code}
+        onSelectLanguage={lang => setTargetLang(lang)}
+      />
 
-          {explanationMode && (
-            <View style={styles.simpleExplanationCard}>
-              <Text style={styles.simpleTitle}>💡 Easy Explanation for Child:</Text>
-              <Text style={styles.simpleText}>
-                जैसे हम रसोई में गैस और बर्तनों से खाना पकाते हैं, वैसे ही पौधा अपनी हरी पत्तियों को रसोई बनाकर सूरज की धूप और पानी से अपना खाना खुद पकाता है!
-              </Text>
-            </View>
-          )}
-        </ScrollView>
-
-        {/* Action Buttons: Explain Simply & Ask Tutor */}
-        <View style={styles.actionRow}>
-          <TouchableOpacity
-            style={[styles.actionBtn, styles.explainBtn]}
-            onPress={() => setExplanationMode(!explanationMode)}
-          >
-            <Text style={styles.explainBtnText}>
-              {explanationMode ? 'Hide Simple Note' : '🌱 Explain in Easy Words'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.actionBtn, styles.tutorBtn]}
-            onPress={() => navigation && navigation.navigate('TutorChat', { topic: selectedText, lang: targetLang })}
-          >
-            <LinearGradient colors={COLORS.primaryGradient} style={styles.tutorBtnGradient}>
-              <Text style={styles.tutorBtnText}>Ask Vidya Mitra 🤖</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <TranslationMeaningCard
+        targetLangName={targetLang.name}
+        targetLangNative={targetLang.native}
+        translatedText={translatedText}
+        childNote={childNote}
+        isTranslating={isTranslating}
+        isPlayingAudio={isPlayingAudio}
+        explanationMode={explanationMode}
+        onToggleExplanation={() => setExplanationMode(!explanationMode)}
+        onPlayAudio={handleAudioPlayback}
+        onAskTutor={handleAskTutor}
+      />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#181824' },
-  header: {
+  container: {
+    flex: 1,
+    backgroundColor: '#0e0e17',
+  },
+  topHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
+    backgroundColor: '#12121c',
     borderBottomWidth: 1,
-    borderBottomColor: '#2b2b3d',
+    borderBottomColor: '#20202e',
   },
-  backButton: { padding: SPACING.xs, marginRight: SPACING.sm },
-  backButtonText: { color: COLORS.white, fontSize: 24, fontWeight: '700' },
-  headerTitleWrap: { flex: 1 },
-  headerTitle: { color: COLORS.white, fontSize: 16, fontWeight: '700' },
-  headerSub: { color: '#9090aa', fontSize: 11, marginTop: 2 },
-  badge: {
-    backgroundColor: '#10b98122',
-    borderColor: '#10b981',
-    borderWidth: 1,
+  backBtn: {
+    paddingRight: SPACING.sm,
+  },
+  backArrow: {
+    fontSize: 22,
+    color: '#ffffff',
+  },
+  titleArea: {
+    flex: 1,
+    marginLeft: 8,
+  },
+  screenTitle: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  screenSub: {
+    fontSize: 11,
+    color: '#818cf8',
+    marginTop: 1,
+  },
+  liveIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(16, 185, 129, 0.15)',
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 12,
+    borderRadius: 10,
+    gap: 4,
   },
-  badgeText: { color: '#10b981', fontSize: 11, fontWeight: '700' },
-
-  viewfinderContainer: {
-    height: 220,
-    backgroundColor: '#0a0a10',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#10b981',
   },
-  viewfinder: {
-    width: width - 40,
-    height: 180,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  selectionBox: {
-    width: '100%',
-    height: 120,
-    borderColor: 'rgba(102, 126, 234, 0.6)',
-    borderWidth: 1.5,
-    borderRadius: 8,
-    backgroundColor: 'rgba(102, 126, 234, 0.08)',
-    justifyContent: 'center',
-    padding: SPACING.md,
-    position: 'relative',
-  },
-  corner: {
-    position: 'absolute',
-    width: 14,
-    height: 14,
-    borderColor: '#667eea',
-  },
-  cornerTL: { top: -2, left: -2, borderTopWidth: 3, borderLeftWidth: 3 },
-  cornerTR: { top: -2, right: -2, borderTopWidth: 3, borderRightWidth: 3 },
-  cornerBL: { bottom: -2, left: -2, borderBottomWidth: 3, borderLeftWidth: 3 },
-  cornerBR: { bottom: -2, right: -2, borderBottomWidth: 3, borderRightWidth: 3 },
-  scannedLine: {
-    backgroundColor: 'rgba(255, 255, 255, 0.92)',
-    padding: SPACING.sm,
-    borderRadius: 4,
-  },
-  scannedText: {
-    color: '#111827',
-    fontSize: 13,
-    fontWeight: '600',
-    lineHeight: 18,
-  },
-  hintText: {
-    color: '#a0a0b8',
+  badgeText: {
+    color: '#10b981',
     fontSize: 11,
-    marginTop: 8,
+    fontWeight: '700',
   },
-
-  langSelectorWrap: {
-    paddingVertical: SPACING.sm,
-    backgroundColor: '#1e1e2e',
+  passageSelectorRow: {
+    backgroundColor: '#161622',
+    paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#2b2b3d',
+    borderBottomColor: '#242436',
   },
-  langLabel: {
-    color: '#d0d0e0',
+  selectorLabel: {
+    color: '#94a3b8',
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: '700',
     paddingHorizontal: SPACING.lg,
-    marginBottom: 6,
+    marginBottom: 4,
   },
-  langScroll: {
+  passageScroll: {
     paddingHorizontal: SPACING.lg,
     gap: 8,
   },
-  langChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: RADIUS.md,
-    backgroundColor: '#29293d',
-    borderWidth: 1,
-    borderColor: '#3a3a52',
-    alignItems: 'center',
-  },
-  langChipActive: {
-    backgroundColor: '#667eea',
-    borderColor: '#764ba2',
-  },
-  langChipNative: {
-    color: '#ffffff',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  langChipText: {
-    color: '#a0a0b8',
-    fontSize: 10,
-    marginTop: 1,
-  },
-  langChipTextActive: {
-    color: '#ffffff',
-  },
-
-  bottomCard: {
-    flex: 1,
-    backgroundColor: COLORS.white,
-    borderTopLeftRadius: RADIUS.lg,
-    borderTopRightRadius: RADIUS.lg,
-    padding: SPACING.lg,
-    ...SHADOWS.medium,
-  },
-  bottomCardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: SPACING.sm,
-  },
-  outputTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  outputIcon: { fontSize: 16 },
-  outputTitle: { fontSize: 14, fontWeight: '700', color: COLORS.text },
-  speakButton: {
-    backgroundColor: '#f0f2fe',
+  passageChip: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: 14,
+    backgroundColor: '#232338',
   },
-  speakText: { color: '#4c51bf', fontSize: 11, fontWeight: '700' },
-  translationScrollView: { flex: 1, marginVertical: SPACING.xs },
-  translationText: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: COLORS.text,
-    fontWeight: '500',
+  passageChipActive: {
+    backgroundColor: '#4338ca',
   },
-  simpleExplanationCard: {
-    marginTop: SPACING.md,
-    backgroundColor: '#f0fdf4',
-    borderLeftWidth: 3,
-    borderLeftColor: '#22c55e',
-    padding: SPACING.md,
-    borderRadius: RADIUS.sm,
+  passageChipText: {
+    color: '#cbd5e1',
+    fontSize: 11,
+    fontWeight: '600',
   },
-  simpleTitle: { fontSize: 12, fontWeight: '700', color: '#166534', marginBottom: 4 },
-  simpleText: { fontSize: 13, color: '#14532d', lineHeight: 19 },
-
-  actionRow: {
-    flexDirection: 'row',
-    gap: SPACING.md,
-    marginTop: SPACING.sm,
+  passageChipTextActive: {
+    color: '#ffffff',
   },
-  actionBtn: { flex: 1, borderRadius: RADIUS.md, overflow: 'hidden' },
-  explainBtn: {
-    backgroundColor: '#f3f4f6',
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 12,
-  },
-  explainBtnText: { color: COLORS.text, fontSize: 13, fontWeight: '700' },
-  tutorBtn: { borderRadius: RADIUS.md },
-  tutorBtnGradient: {
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tutorBtnText: { color: COLORS.white, fontSize: 13, fontWeight: '700' },
 });
 
 export default LiveTranslateScreen;
