@@ -1,5 +1,9 @@
 <div align="center">
 
+<img src="docs/assets/banner.png" alt="Vidya Mitra Banner" width="100%"/>
+<br/>
+<br/>
+
 # 📚 Vidya Mitra
 ### *Your Child's Socratic Learning Friend & Parent Bridge*
 
@@ -34,7 +38,7 @@
 ## 📌 Project Status & Next Stage
 
 * **Current Status**: Project structural reorganization completed into modular sub-packages. Core frontend screens implemented covering Live Translation, Socratic Tutoring, Assessments, Doubt Solving, Exam Planning, Paper Evaluation, and Learning Diagnostics. Spring Boot gateway and FastAPI microservices scaffolded with domain models.
-* **Decided Next Stage**: **Stage 2 — NCERT Class 1-8 Multilingual Vector Indexing & Offline Indic OCR Engine Integration**.
+* **Decided Next Stage**: Stage 2 NCERT Class 1 to 8 Multilingual Vector Indexing and Offline Indic OCR Engine Integration.
 
 ---
 
