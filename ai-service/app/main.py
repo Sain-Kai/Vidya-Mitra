@@ -1,6 +1,6 @@
 """
 Vidya Mitra AI Microservice Entrypoint.
-FastAPI Application providing Indic Translation, Socratic Tutor,
+FastAPI Application providing Indic Translation, OCR, Socratic Tutor,
 Diagnostic Assessments, and Paper Grading.
 """
 from fastapi import FastAPI, HTTPException
@@ -9,12 +9,13 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 
 from app.services.translation_engine import IndicTranslationEngine
+from app.services.ocr_engine import IndicOCREngine
 from app.services.socratic_tutor import SocraticTutorEngine
 from app.services.exam_evaluator import ExamEvaluatorEngine
 
 app = FastAPI(
     title="Vidya Mitra AI Service",
-    description="Intelligent Socratic Multi-modal Tutoring Engine for Classes 1 to 8",
+    description="Intelligent Socratic Multi modal Tutoring Engine for Classes 1 to 8",
     version="1.0.0",
 )
 
@@ -27,6 +28,7 @@ app.add_middleware(
 )
 
 translation_engine = IndicTranslationEngine()
+ocr_engine = IndicOCREngine()
 tutor_engine = SocraticTutorEngine()
 evaluator_engine = ExamEvaluatorEngine()
 
@@ -34,6 +36,10 @@ class TranslationRequest(BaseModel):
     text: str
     source_lang: Optional[str] = "en"
     target_lang: str = "hi"
+
+class OCRRequest(BaseModel):
+    image_base64: Optional[str] = None
+    sample_text: Optional[str] = None
 
 class TutorAskRequest(BaseModel):
     topic: str
@@ -63,6 +69,13 @@ def health_check():
         "supported_indic_languages": list(translation_engine.supported_langs.keys()),
     }
 
+@app.post("/api/ocr/extract")
+def extract_text_from_camera(req: OCRRequest):
+    return ocr_engine.extract_text_from_crop(
+        image_data=req.image_base64,
+        sample_text=req.sample_text
+    )
+
 @app.post("/api/translate/ocr")
 def translate_ocr_text(req: TranslationRequest):
     return translation_engine.translate_text(
@@ -89,11 +102,11 @@ def solve_doubt_conceptually(req: DoubtSolverRequest):
         "grade": req.grade,
         "step_by_step_solution": [
             "Step 1: Understand what is given and what needs to be found.",
-            "Step 2: Connect with everyday physical items (e.g. sharing fruits or water).",
+            "Step 2: Connect with everyday physical items like sharing fruits or water.",
             "Step 3: Carry out calculations neatly with units.",
             "Step 4: Check if the answer makes logical sense.",
         ],
-        "foundation_story": "जब भी सवाल कठिन लगे, संख्याओं को अपनी पसंदीदा चीज़ों (जैसे टॉफियां या क्रिकेट बॉल) के रूप में सोचो!",
+        "foundation_story": "जब भी सवाल कठिन लगे, संख्याओं को अपनी पसंदीदा चीज़ों के रूप में सोचो!",
         "citations": [f"NCERT Class {req.grade} {req.subject}"],
     }
 
