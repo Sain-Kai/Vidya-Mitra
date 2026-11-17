@@ -261,6 +261,14 @@ class DiagnosticAssessmentEngine:
                 "mastery_percentage": pct
             })
 
+        remedial_lessons = self.generate_adaptive_remediation(weak_topics, grade_level)
+        parent_report = self.generate_parent_summary_report(
+            overall_percentage=overall_percentage,
+            weak_topics=weak_topics,
+            subject=subject,
+            grade_level=grade_level
+        )
+
         return {
             "overall_score": total_earned,
             "max_score": total_possible,
@@ -268,5 +276,134 @@ class DiagnosticAssessmentEngine:
             "topic_mastery": topic_mastery,
             "weak_topics": weak_topics,
             "skills_breakdown": skills_breakdown,
-            "detailed_evaluations": detailed_evaluations
+            "detailed_evaluations": detailed_evaluations,
+            "adaptive_next_lessons": remedial_lessons,
+            "parent_summary_report": parent_report
+        }
+
+    def generate_adaptive_remediation(
+        self,
+        weak_topics: List[str],
+        grade_level: str = "Class 4"
+    ) -> List[Dict[str, Any]]:
+        """
+        Builds tailored next lessons with progressive simplification levels for weak topics.
+        """
+        lessons: List[Dict[str, Any]] = []
+
+        topic_remediation_catalog = {
+            "Word Problems and Logical Reasoning": {
+                "title": "Fun with Story Problems",
+                "difficulty_level": "Foundational Level 1",
+                "foundation_analogy": "Instead of abstract numbers, picture physical cricket balls or mangoes in baskets.",
+                "simplified_steps": [
+                    "Step 1: Read the story and circle what items we have.",
+                    "Step 2: Decide whether we are putting groups together or taking things away.",
+                    "Step 3: Solve one step at a time before moving to the next question."
+                ],
+                "practice_challenge": "You have 4 boxes with 5 crayons each. You gift 3 crayons to your friend. How many crayons are left?",
+                "socratic_hint": "First multiply 4 boxes by 5 crayons, then subtract the 3 gifted crayons."
+            },
+            "Time and Clocks": {
+                "title": "Mastering the Clock and Minutes",
+                "difficulty_level": "Foundational Level 1",
+                "foundation_analogy": "Think of the clock face as a round running track where each big number equals 5 steps of the minute hand.",
+                "simplified_steps": [
+                    "Step 1: Count hours first by checking the short hand.",
+                    "Step 2: Multiply the number pointed to by the long hand by 5.",
+                    "Step 3: Add extra elapsed minutes."
+                ],
+                "practice_challenge": "If cartoon time begins at 5:10 PM and runs for 40 minutes, what time does the cartoon end?",
+                "socratic_hint": "Add 40 minutes to 10 minutes."
+            },
+            "Fractions and Parts": {
+                "title": "Equal Slices and Sharing",
+                "difficulty_level": "Foundational Level 1",
+                "foundation_analogy": "Imagine a fresh round paratha or chapati sliced cleanly into equal parts among friends.",
+                "simplified_steps": [
+                    "Step 1: The bottom number shows how many total slices exist.",
+                    "Step 2: The top number shows how many slices you have on your plate.",
+                    "Step 3: If all slices are there, it makes one whole paratha."
+                ],
+                "practice_challenge": "If a pizza is cut into 8 equal slices and you eat 3 slices, what fraction did you eat?",
+                "socratic_hint": "Place your 3 slices on top and the total 8 slices at the bottom."
+            },
+            "Plant Biology": {
+                "title": "How Green Leaves Cook Food",
+                "difficulty_level": "Foundational Level 1",
+                "foundation_analogy": "Green leaves are tiny nature kitchens using sunlight and water to make tasty food for the tree.",
+                "simplified_steps": [
+                    "Step 1: Roots pull water up from the soil like a straw.",
+                    "Step 2: Green chlorophyll in leaves catches warm sunshine.",
+                    "Step 3: Leaves mix sunlight and water to prepare sweet energy for the plant."
+                ],
+                "practice_challenge": "What do roots act like when drinking water from moist soil?",
+                "socratic_hint": "Think of sipping juice through a straw."
+            }
+        }
+
+        for topic in weak_topics:
+            if topic in topic_remediation_catalog:
+                entry = topic_remediation_catalog[topic]
+                lessons.append({
+                    "topic": topic,
+                    "lesson_title": entry["title"],
+                    "difficulty": entry["difficulty_level"],
+                    "foundation_analogy": entry["foundation_analogy"],
+                    "simplified_steps": entry["simplified_steps"],
+                    "practice_challenge": entry["practice_challenge"],
+                    "socratic_hint": entry["socratic_hint"]
+                })
+            else:
+                lessons.append({
+                    "topic": topic,
+                    "lesson_title": f"Foundation Review: {topic}",
+                    "difficulty": "Foundational Level 1",
+                    "foundation_analogy": f"Breaking down {topic} with everyday examples and step by step guidance.",
+                    "simplified_steps": [
+                        "Step 1: Understand the core term with real life items.",
+                        "Step 2: Work through a solved example together.",
+                        "Step 3: Try one short practice question."
+                    ],
+                    "practice_challenge": f"Can you explain the main idea of {topic} in your own words?",
+                    "socratic_hint": "Think about where you see this topic in your home or school routine."
+                })
+
+        return lessons
+
+    def generate_parent_summary_report(
+        self,
+        overall_percentage: float,
+        weak_topics: List[str],
+        subject: str,
+        grade_level: str
+    ) -> Dict[str, Any]:
+        """
+        Builds a multilingual summary for parents explaining child performance and action plans.
+        """
+        weak_text_en = ", ".join(weak_topics) if weak_topics else "All topics well understood"
+
+        hindi_weak = "शब्द समस्याओं और तार्किक प्रश्नों" if "Word Problems and Logical Reasoning" in weak_topics else "कुछ कठिन सवालों"
+        hindi_desc = (
+            f"आपके बच्चे ने {subject} मूल्यांकन में {overall_percentage}% अंक प्राप्त किए हैं। "
+            f"बुनियादी अवधारणाएं स्पष्ट हैं, लेकिन {hindi_weak} में थोड़ी सहायता की आवश्यकता है। "
+            f"विद्या मित्र ने इसके लिए आसान उदाहरणों और कहानियों वाले अभ्यास पाठ तैयार किए हैं।"
+        )
+
+        bengali_desc = (
+            f"আপনার সন্তান {subject} মূল্যায়নে {overall_percentage}% নম্বর পেয়েছে। "
+            f"মৌলিক বিষয়গুলি ভালো বুঝেছে, তবে দুর্বল ক্ষেত্রগুলির জন্য বিদ্যা মিত্র সহজ উদাহরণ সহ নতুন অনুশীলন পাঠ প্রস্তুত করেছে।"
+        )
+
+        return {
+            "grade_level": grade_level,
+            "subject": subject,
+            "overall_percentage": overall_percentage,
+            "identified_weak_areas": weak_topics,
+            "summaries": {
+                "en": f"Student scored {overall_percentage}% in {subject}. Strengths observed in core fundamentals. Dedicated remediation prepared for {weak_text_en}.",
+                "hi": hindi_desc,
+                "bn": bengali_desc
+            },
+            "recommended_parent_action": "Encourage the child to complete the 10 minute interactive foundation lesson without worrying about memorization."
         }
