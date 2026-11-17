@@ -12,6 +12,7 @@ from app.services.translation_engine import IndicTranslationEngine
 from app.services.ocr_engine import IndicOCREngine
 from app.services.socratic_tutor import SocraticTutorEngine
 from app.services.exam_evaluator import ExamEvaluatorEngine
+from app.services.diagnostic_assessment_engine import DiagnosticAssessmentEngine
 
 app = FastAPI(
     title="Vidya Mitra AI Service",
@@ -31,6 +32,7 @@ translation_engine = IndicTranslationEngine()
 ocr_engine = IndicOCREngine()
 tutor_engine = SocraticTutorEngine()
 evaluator_engine = ExamEvaluatorEngine()
+assessment_engine = DiagnosticAssessmentEngine()
 
 class TranslationRequest(BaseModel):
     text: str
@@ -40,6 +42,15 @@ class TranslationRequest(BaseModel):
 class OCRRequest(BaseModel):
     image_base64: Optional[str] = None
     sample_text: Optional[str] = None
+
+class AssessmentGenerateRequest(BaseModel):
+    subject: Optional[str] = "Mathematics"
+    grade_level: Optional[str] = "Class 4"
+
+class AssessmentSubmitRequest(BaseModel):
+    subject: str = "Mathematics"
+    grade_level: str = "Class 4"
+    answers: Dict[str, Any]
 
 class TutorAskRequest(BaseModel):
     topic: str
@@ -118,6 +129,32 @@ def grade_exam_paper(req: PaperGradingRequest):
         subject=req.subject or "Mathematics",
         grade=req.grade or 4,
     )
+
+@app.post("/api/assessment/generate")
+def generate_diagnostic_assessment(req: AssessmentGenerateRequest):
+    return assessment_engine.generate_assessment(
+        subject=req.subject or "Mathematics",
+        grade_level=req.grade_level or "Class 4"
+    )
+
+@app.post("/api/assessment/submit")
+def submit_diagnostic_assessment(req: AssessmentSubmitRequest):
+    return assessment_engine.evaluate_assessment(
+        subject=req.subject,
+        grade_level=req.grade_level,
+        student_answers=req.answers
+    )
+
+@app.get("/api/performance/diagnostics")
+def get_performance_diagnostics(subject: str = "Mathematics", grade_level: str = "Class 4"):
+    assessment = assessment_engine.generate_assessment(subject, grade_level)
+    sample_answers = {
+        "math_c4_01": 1,
+        "math_c4_02": 0,
+        "math_c4_03": "quarter",
+        "math_c4_04": "add 20 and 10 meters"
+    }
+    return assessment_engine.evaluate_assessment(subject, grade_level, sample_answers)
 
 if __name__ == "__main__":
     import uvicorn
