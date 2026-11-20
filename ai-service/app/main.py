@@ -13,6 +13,7 @@ from app.services.ocr_engine import IndicOCREngine
 from app.services.socratic_tutor import SocraticTutorEngine
 from app.services.exam_evaluator import ExamEvaluatorEngine
 from app.services.diagnostic_assessment_engine import DiagnosticAssessmentEngine
+from app.services.exam_revision_scheduler import ExamRevisionSchedulerEngine
 
 app = FastAPI(
     title="Vidya Mitra AI Service",
@@ -33,6 +34,7 @@ ocr_engine = IndicOCREngine()
 tutor_engine = SocraticTutorEngine()
 evaluator_engine = ExamEvaluatorEngine()
 assessment_engine = DiagnosticAssessmentEngine()
+scheduler_engine = ExamRevisionSchedulerEngine()
 
 class TranslationRequest(BaseModel):
     text: str
@@ -51,6 +53,19 @@ class AssessmentSubmitRequest(BaseModel):
     subject: str = "Mathematics"
     grade_level: str = "Class 4"
     answers: Dict[str, Any]
+
+class ExamScheduleGenerateRequest(BaseModel):
+    exam_title: Optional[str] = "Term 1 Mathematics Exam"
+    subject: Optional[str] = "Mathematics"
+    exam_date: Optional[str] = "2026-12-05"
+    grade_level: Optional[str] = "Class 4"
+    syllabus_chapters: Optional[List[str]] = None
+    weak_topics: Optional[List[str]] = None
+
+class ExamTaskToggleRequest(BaseModel):
+    schedule: Dict[str, Any]
+    phase_id: str
+    task_id: str
 
 class TutorAskRequest(BaseModel):
     topic: str
@@ -155,6 +170,35 @@ def get_performance_diagnostics(subject: str = "Mathematics", grade_level: str =
         "math_c4_04": "add 20 and 10 meters"
     }
     return assessment_engine.evaluate_assessment(subject, grade_level, sample_answers)
+
+@app.post("/api/exam/generate-schedule")
+def generate_exam_revision_schedule(req: ExamScheduleGenerateRequest):
+    return scheduler_engine.generate_revision_schedule(
+        exam_title=req.exam_title or "Term 1 Mathematics Exam",
+        subject=req.subject or "Mathematics",
+        exam_date_str=req.exam_date or "2026-12-05",
+        grade_level=req.grade_level or "Class 4",
+        syllabus_chapters=req.syllabus_chapters,
+        weak_topics=req.weak_topics
+    )
+
+@app.post("/api/exam/toggle-task")
+def toggle_revision_milestone_task(req: ExamTaskToggleRequest):
+    return scheduler_engine.toggle_milestone_task(
+        schedule=req.schedule,
+        phase_id=req.phase_id,
+        task_id=req.task_id
+    )
+
+@app.get("/api/exam/active-schedule")
+def get_active_exam_schedule(subject: str = "Mathematics", grade_level: str = "Class 4"):
+    return scheduler_engine.generate_revision_schedule(
+        exam_title=f"Upcoming {subject} Examination",
+        subject=subject,
+        exam_date_str="2026-12-05",
+        grade_level=grade_level,
+        weak_topics=["Word Problems and Logical Reasoning", "Perimeter and Area"]
+    )
 
 if __name__ == "__main__":
     import uvicorn
