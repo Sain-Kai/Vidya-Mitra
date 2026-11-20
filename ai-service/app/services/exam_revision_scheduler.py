@@ -59,6 +59,36 @@ class ExamRevisionSchedulerEngine:
         p3_start = p2_end
         p3_end = today + timedelta(days=days_available)
 
+        phase2_tasks = [
+            {
+                "task_id": "t2_01",
+                "text": "Attempt 10 multi format diagnostic assessment questions",
+                "completed": False,
+                "time_minutes": 20
+            },
+            {
+                "task_id": "t2_02",
+                "text": "Work through step by step solutions for multi step word problems",
+                "completed": False,
+                "time_minutes": 25
+            },
+            {
+                "task_id": "t2_03",
+                "text": "Practice neat diagram drawing and unit labeling",
+                "completed": False,
+                "time_minutes": 15
+            }
+        ]
+
+        if weak_areas:
+            for idx, wt in enumerate(weak_areas):
+                phase2_tasks.insert(1, {
+                    "task_id": f"t2_weak_{idx + 1}",
+                    "text": f"Prioritized Foundation Review: {wt} using concrete stories",
+                    "completed": False,
+                    "time_minutes": 20
+                })
+
         milestones = [
             {
                 "phase_id": "phase_1",
@@ -97,26 +127,7 @@ class ExamRevisionSchedulerEngine:
                 "start_date": p2_start.strftime("%Y-%m-%d"),
                 "end_date": p2_end.strftime("%Y-%m-%d"),
                 "status": "planned",
-                "daily_tasks": [
-                    {
-                        "task_id": "t2_01",
-                        "text": "Attempt 10 multi format diagnostic assessment questions",
-                        "completed": False,
-                        "time_minutes": 20
-                    },
-                    {
-                        "task_id": "t2_02",
-                        "text": "Work through step by step solutions for multi step word problems",
-                        "completed": False,
-                        "time_minutes": 25
-                    },
-                    {
-                        "task_id": "t2_03",
-                        "text": "Practice neat diagram drawing and unit labeling",
-                        "completed": False,
-                        "time_minutes": 15
-                    }
-                ]
+                "daily_tasks": phase2_tasks
             },
             {
                 "phase_id": "phase_3",
@@ -149,6 +160,12 @@ class ExamRevisionSchedulerEngine:
             }
         ]
 
+        parent_reminders = {
+            "hi": f"परीक्षा में {days_available} दिन शेष हैं। आज का लक्ष्य: {milestones[0]['daily_tasks'][0]['text']}",
+            "bn": f"পরীক্ষায় {days_available} দিন বাকি রয়েছে। আজকের লক্ষ্য: প্রাথমিক ধারণা পুনরাবৃত্তি।",
+            "en": f"{days_available} days remaining until {exam_title}. Daily focus: {milestones[0]['focus_area']}."
+        }
+
         return {
             "status": "success",
             "exam_title": exam_title,
@@ -157,5 +174,24 @@ class ExamRevisionSchedulerEngine:
             "exam_date": exam_date_str,
             "days_remaining": days_available,
             "syllabus_chapters": chapters,
-            "revision_phases": milestones
+            "weak_topics_prioritized": weak_areas,
+            "revision_phases": milestones,
+            "parent_reminders": parent_reminders
         }
+
+    def toggle_milestone_task(
+        self,
+        schedule: Dict[str, Any],
+        phase_id: str,
+        task_id: str
+    ) -> Dict[str, Any]:
+        """
+        Toggles the completion status of a specific daily revision task.
+        """
+        for phase in schedule.get("revision_phases", []):
+            if phase.get("phase_id") == phase_id:
+                for task in phase.get("daily_tasks", []):
+                    if task.get("task_id") == task_id:
+                        task["completed"] = not task.get("completed", False)
+                        break
+        return schedule
