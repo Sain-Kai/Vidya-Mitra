@@ -6,3 +6,5 @@ export { SubjectGrid } from './SubjectGrid';
 export { LanguageSelectorBar, INDIC_LANGUAGES } from './LanguageSelectorBar';
 export { CameraReticle } from './CameraReticle';
 export { TranslationMeaningCard } from './TranslationMeaningCard';
+export { RevisionMilestoneCard } from './RevisionMilestoneCard';
+export { ExamCountdownBanner } from './ExamCountdownBanner';
