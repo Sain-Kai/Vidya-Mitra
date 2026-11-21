@@ -14,6 +14,7 @@ from app.services.socratic_tutor import SocraticTutorEngine
 from app.services.exam_evaluator import ExamEvaluatorEngine
 from app.services.diagnostic_assessment_engine import DiagnosticAssessmentEngine
 from app.services.exam_revision_scheduler import ExamRevisionSchedulerEngine
+from app.services.doubt_solver_engine import MultimodalDoubtSolverEngine
 
 app = FastAPI(
     title="Vidya Mitra AI Service",
@@ -35,6 +36,7 @@ tutor_engine = SocraticTutorEngine()
 evaluator_engine = ExamEvaluatorEngine()
 assessment_engine = DiagnosticAssessmentEngine()
 scheduler_engine = ExamRevisionSchedulerEngine()
+doubt_engine = MultimodalDoubtSolverEngine()
 
 class TranslationRequest(BaseModel):
     text: str
@@ -78,7 +80,13 @@ class DoubtSolverRequest(BaseModel):
     question_text: str
     grade: Optional[int] = 4
     subject: Optional[str] = "Mathematics"
+    simplification_level: Optional[int] = 1
     image_base64: Optional[str] = None
+
+class DoubtSimplifyRequest(BaseModel):
+    question_text: str
+    current_level: Optional[int] = 1
+    grade: Optional[int] = 4
 
 class PaperGradingRequest(BaseModel):
     question_paper_text: Optional[str] = "Class 4 Term 1 Exam"
@@ -122,19 +130,21 @@ def ask_socratic_tutor(req: TutorAskRequest):
 
 @app.post("/api/tutor/doubt-solver")
 def solve_doubt_conceptually(req: DoubtSolverRequest):
-    return {
-        "question": req.question_text,
-        "subject": req.subject,
-        "grade": req.grade,
-        "step_by_step_solution": [
-            "Step 1: Understand what is given and what needs to be found.",
-            "Step 2: Connect with everyday physical items like sharing fruits or water.",
-            "Step 3: Carry out calculations neatly with units.",
-            "Step 4: Check if the answer makes logical sense.",
-        ],
-        "foundation_story": "जब भी सवाल कठिन लगे, संख्याओं को अपनी पसंदीदा चीज़ों के रूप में सोचो!",
-        "citations": [f"NCERT Class {req.grade} {req.subject}"],
-    }
+    return doubt_engine.solve_doubt(
+        question_text=req.question_text,
+        grade=req.grade or 4,
+        subject=req.subject or "Mathematics",
+        simplification_level=req.simplification_level or 1,
+        image_data=req.image_base64
+    )
+
+@app.post("/api/doubt/simplify-further")
+def simplify_doubt_further(req: DoubtSimplifyRequest):
+    return doubt_engine.simplify_further(
+        question_text=req.question_text,
+        current_level=req.current_level or 1,
+        grade=req.grade or 4
+    )
 
 @app.post("/api/evaluation/grade-paper")
 def grade_exam_paper(req: PaperGradingRequest):
